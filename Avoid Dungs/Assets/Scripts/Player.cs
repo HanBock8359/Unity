@@ -8,12 +8,10 @@ public class Player : MonoBehaviour
     private Animator animator;
     private SpriteRenderer renderer;
 
-    private float speed = 3;
+    private float speed = 5;
     private float horizontal;
 
     private bool isAttacking;
-    private bool swordAttack;
-    private bool shieldAttack;
 
     // Start is called before the first frame update
     void Start()
@@ -22,20 +20,28 @@ public class Player : MonoBehaviour
         animator = GetComponent<Animator>();
         renderer = GetComponent<SpriteRenderer>();
         isAttacking = false;
-        swordAttack = false;
-        shieldAttack = false;
     }
 
     // Update is called once per frame 
-    void Update()
+    void FixedUpdate()
     {
         horizontal = Input.GetAxis("Horizontal");
 
-        PlayerMove();   //moves the character
-        PlayerAttack(); //attack animation
+        if (!GameManager.Instance.getStopTrigger())
+        {
+            animator.SetTrigger("alive");
+            PlayerMove();   //moves the character
+            PlayerAttack(); //attack animation
+        }
+
+        if(GameManager.Instance.getStopTrigger())
+        {
+            animator.SetTrigger("dead");
+        }
+        
         ScreenCheck();  //checks if the player is out of bound to the camera
     }
-
+  
     private void PlayerMove()
     {
         animator.SetFloat("speed", Mathf.Abs(horizontal));
@@ -61,14 +67,14 @@ public class Player : MonoBehaviour
             //sword attack
             if (Input.GetKeyDown(KeyCode.Z))
             {
-                animator.SetBool("swordAttack", true);
                 isAttacking = true;
+                animator.SetTrigger("swordAttack");
             }
             //shield bash
             else if (Input.GetKeyDown(KeyCode.X))
             {
-                animator.SetBool("shieldAttack", true);
                 isAttacking = true;
+                animator.SetTrigger("shieldAttack");
             }
         }
 
@@ -77,8 +83,6 @@ public class Player : MonoBehaviour
     private void EndAttack()
     {
         isAttacking = false;
-        animator.SetBool("swordAttack", false);
-        animator.SetBool("shieldAttack", false);
     }
 
     private void ScreenCheck()
