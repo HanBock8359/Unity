@@ -3,7 +3,13 @@ guid: 1ea4a4d5f75c9ee47a2b5674005bd1c7
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - poop: {fileID: 9185448491295292666, guid: ba947e17bb2c39f4587c9afaa61d6bae, type: 3}
+  - scoreTxt: {instanceID: 0}
+  - bestScore: {instanceID: 0}
+  - panel: {instanceID: 0}
+  - charHp: {fileID: 4692934273857668081, guid: e2d034e498f78b746a8d2a692a0e71a7,
+      type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

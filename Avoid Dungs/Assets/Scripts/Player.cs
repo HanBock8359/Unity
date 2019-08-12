@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class Player : MonoBehaviour
 {
     private Rigidbody2D rigidbody;
@@ -16,16 +17,46 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Screen.SetResolution(768, 1024, false);
+
         rigidbody = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         renderer = GetComponent<SpriteRenderer>();
+        
         isAttacking = false;
     }
 
     // Update is called once per frame 
     void FixedUpdate()
     {
-        horizontal = Input.GetAxis("Horizontal");
+        //For Android Application
+        if (Input.touchCount > 0)
+        {
+            Touch touch = Input.GetTouch(0);
+
+            if (touch.phase == TouchPhase.Began)
+            {
+                if (touch.position.x >= (Screen.width / 2))
+                {
+                    horizontal = 1;
+                }
+                else if (touch.position.x < (Screen.width / 2))
+                {
+                    horizontal = -1;
+                }
+            }
+            else if (touch.phase == TouchPhase.Ended)
+            {
+                horizontal = 0;
+            }
+        }
+        else
+        {
+            horizontal = Input.GetAxis("Horizontal");
+        }
+
+        //Debug.Log(horizontal);
+        
 
         if (!GameManager.Instance.getStopTrigger())
         {
@@ -46,6 +77,7 @@ public class Player : MonoBehaviour
     {
         animator.SetFloat("speed", Mathf.Abs(horizontal));
 
+        //For Windows Application
         //if moving to LEFT
         if(horizontal < 0)
         {
@@ -93,6 +125,9 @@ public class Player : MonoBehaviour
         this.transform.position = Camera.main.ViewportToWorldPoint(charPos);
     }
 
-
+    public void gotHit()
+    {
+        animator.SetTrigger("dead");
+    }
 
 }

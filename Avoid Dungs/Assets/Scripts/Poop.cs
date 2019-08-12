@@ -1,21 +1,25 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Poop : MonoBehaviour
 {
     [SerializeField]
     private Animator animator;
     // Start is called before the first frame update
+    private float dmg;
+
     void Start()
     {
         animator = GetComponent<Animator>();
+        dmg = 10;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     void OnCollisionEnter2D(Collision2D collision)
@@ -33,9 +37,18 @@ public class Poop : MonoBehaviour
 
         if (collision.gameObject.tag == "Player")
         {
-            GameManager.Instance.GameOver();
             animator.SetTrigger("poop");
+            GameManager.Instance.getHit(dmg);
+
+            if (GameManager.Instance.isHpZero())
+            {
+                GameManager.Instance.GameOver();
+            }
         }
     }
-
+    
+    public void destroyImmediately()
+    {
+        animator.SetTrigger("poop");
+    }
 }

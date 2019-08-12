@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 4343799220213907319}
   m_Layer: 0
   m_Name: poop
-  m_TagString: Untagged
+  m_TagString: poopClone
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
